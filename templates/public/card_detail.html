@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ card_user.get_full_name|default:card_user.username }} — визитка{% endblock %}
+{% block content %}
+<div class="card shadow-sm glassy">
+    <div class="card-body">
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+            {% if card_user.avatar %}
+                <img src="{{ card_user.avatar.url }}" alt="avatar" class="rounded-circle" width="96" height="96">
+            {% else %}
+                <div class="avatar-placeholder rounded-circle d-flex align-items-center justify-content-center" style="width:96px;height:96px;">{{ card_user.username|first|upper }}</div>
+            {% endif %}
+            <div>
+                <h2 class="mb-1">{{ card_user.get_full_name|default:card_user.username }}</h2>
+                <p class="text-muted mb-1">{{ card_user.title }}</p>
+                <div class="d-flex flex-wrap gap-2">
+                    {% for link in social_links %}
+                        <a class="btn btn-outline-secondary btn-sm" href="{{ link.url }}" target="_blank">
+                            {% if link.icon %}<i class="{{ link.icon }}"></i>{% endif %} {{ link.label|default:link.platform }}
+                        </a>
+                    {% empty %}
+                        <span class="text-muted">Контакты не заполнены</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4 g-4">
+    <div class="col-lg-6">
+        <div class="card h-100 glassy">
+            <div class="card-body">
+                <h4>Обо мне</h4>
+                <p class="mb-0">{{ card_user.bio|linebreaksbr|default:"Описание пока пустое." }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card h-100 glassy">
+            <div class="card-body">
+                <h4>Контакты</h4>
+                <div class="vstack gap-2">
+                    {% if card_user.email %}
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-envelope"></i>
+                            <a href="mailto:{{ card_user.email }}" class="text-decoration-none">{{ card_user.email }}</a>
+                        </div>
+                    {% endif %}
+                    {% if card_user.max_username %}
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-person-badge"></i>
+                            <span>MAX: <strong>{{ card_user.max_username }}</strong></span>
+                        </div>
+                    {% endif %}
+                    {% for link in social_links %}
+                        <a class="btn btn-outline-primary d-flex align-items-center gap-2" href="{{ link.url }}" target="_blank">
+                            {% if link.icon %}<i class="{{ link.icon }}"></i>{% endif %}
+                            <span>{{ link.label|default:link.platform }}</span>
+                        </a>
+                    {% endfor %}
+                    {% if not card_user.email and not card_user.max_username and not social_links %}
+                        <p class="text-muted mb-0">Контакты пока не заполнены.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <h3 class="mb-3">Портфолио</h3>
+    <div class="row g-3">
+        {% for project in portfolio_items %}
+            <div class="col-md-4">
+                <div class="card h-100 glassy">
+                    {% if project.image %}
+                        <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <span class="badge text-bg-light mb-2">{{ project.category|default:"Проект" }}</span>
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <p class="card-text small">{{ project.description|truncatewords:20 }}</p>
+                        {% if project.project_archive %}
+                            <a href="{{ project.project_archive.url }}" class="btn btn-sm btn-outline-primary" target="_blank">
+                                Скачать архив
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted">Проекты пока не добавлены.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="mb-0">Отзывы</h3>
+        {% if user.is_authenticated and user != card_user %}
+            <a href="{% url 'card_review' card_user.username %}" class="btn btn-primary btn-sm">Оставить отзыв</a>
+        {% endif %}
+    </div>
+    <div class="row g-3">
+        {% for testimonial in testimonials %}
+            <div class="col-md-6">
+                <div class="card h-100 glassy">
+                    <div class="card-body">
+                        <p class="card-text">"{{ testimonial.text }}"</p>
+                        <div class="d-flex align-items-center gap-2">
+                            {% if testimonial.author.avatar %}
+                                <img src="{{ testimonial.author.avatar.url }}" width="40" height="40" class="rounded-circle" alt="{{ testimonial.author_name }}">
+                            {% else %}
+                                <div class="avatar-placeholder rounded-circle d-flex align-items-center justify-content-center" style="width:40px;height:40px;font-size:14px;">
+                                    {{ testimonial.author_name|first|upper }}
+                                </div>
+                            {% endif %}
+                            <div>
+                                <strong>{{ testimonial.author_name }}</strong>
+                                <div class="text-muted small">{{ testimonial.author_title }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted">Отзывы пока не добавлены.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+

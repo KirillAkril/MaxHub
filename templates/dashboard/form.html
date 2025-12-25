@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Форма{% endblock %}
+{% block content %}
+<h2 class="mb-3">{{ view.model.get_verbose_name }}</h2>
+<form method="post" enctype="multipart/form-data" class="vstack gap-3">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for field in form %}
+        <div>
+            {{ field.label_tag }} {{ field }}
+            <div class="text-muted small">{{ field.help_text }}</div>
+            {{ field.errors }}
+        </div>
+    {% endfor %}
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        {% if object and object.pk and is_portfolio_form %}
+            <a href="{% url 'portfolio_delete' object.pk %}" class="btn btn-danger">Удалить проект</a>
+        {% endif %}
+    </div>
+</form>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}maxhub — электронные визитки{% endblock %}
+{% block content %}
+<div class="row align-items-center">
+    <div class="col-lg-6">
+        <h1 class="fw-bold">Электронные визитки и портфолио</h1>
+        <p class="lead">Создайте цифровую карточку с портфолио и отзывами за пару минут.</p>
+        <div class="d-flex gap-2">
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}" class="btn btn-primary">Перейти в кабинет</a>
+                <a href="{% url 'card_detail' user.username %}" class="btn btn-outline-secondary">Моя визитка</a>
+            {% else %}
+                <a href="{% url 'signup' %}" class="btn btn-primary">Начать бесплатно</a>
+                <a href="{% url 'login' %}" class="btn btn-outline-secondary">У меня уже есть аккаунт</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card shadow-sm glassy">
+            <div class="card-body">
+                <h5 class="card-title">Что внутри</h5>
+                <ul class="mb-0">
+                    <li>Публичная визитка по адресу <code>/card/&lt;username&gt;/</code></li>
+                    <li>Портфолио с карточками проектов</li>
+                    <li>Отзывы клиентов</li>
+                    <li>Контакты в один клик</li>
+                    <li>Поиск пользователей по username</li>
+                    <li>Личный кабинет для редактирования профиля</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

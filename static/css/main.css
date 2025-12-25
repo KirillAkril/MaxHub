@@ -1,0 +1,188 @@
+:root {
+    --bg: #f3f6fb;
+}
+
+body {
+    background: radial-gradient(1200px at 10% 20%, rgba(37,99,235,0.08), transparent),
+                radial-gradient(900px at 90% 0%, rgba(109,40,217,0.08), transparent),
+                var(--bg);
+}
+
+.navbar {
+    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.9) !important;
+}
+
+.card.glassy {
+    background: rgba(255,255,255,0.9);
+    border: 1px solid rgba(37,99,235,0.1);
+    box-shadow: 0 20px 60px rgba(15,23,42,0.08);
+}
+
+.avatar-placeholder {
+    background: linear-gradient(135deg, #2563eb, #9333ea);
+    color: #fff;
+    font-weight: 700;
+}
+
+.bg-body {
+    background-color: transparent;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    border: none;
+    box-shadow: 0 10px 30px rgba(37,99,235,0.25);
+}
+
+.badge {
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+a {
+    text-decoration: none;
+}
+
+.list-group-item-action:hover {
+    background-color: rgba(37,99,235,0.03);
+}
+
+.nav-item form button.nav-link:hover {
+    color: rgba(0,0,0,.7) !important;
+}
+
+/* Стили для полей ввода */
+.form-control,
+.form-select,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+    border: 2px solid rgba(37,99,235,0.15);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background-color: #fff;
+}
+
+.form-control:focus,
+.form-select:focus,
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="url"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    outline: none;
+}
+
+.form-control:hover,
+.form-select:hover,
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="password"]:hover,
+input[type="url"]:hover,
+input[type="number"]:hover,
+input[type="date"]:hover,
+select:hover,
+textarea:hover {
+    border-color: rgba(37,99,235,0.3);
+}
+
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
+
+label {
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 6px;
+    font-size: 14px;
+    display: block;
+    width: 100%;
+}
+
+form .vstack > div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-control::placeholder {
+    color: #94a3b8;
+    opacity: 0.7;
+}
+
+/* Стили для файловых полей */
+input[type="file"] {
+    padding: 8px;
+    border: 2px dashed rgba(37,99,235,0.2);
+    border-radius: 8px;
+    background-color: #f8fafc;
+    transition: all 0.3s ease;
+}
+
+input[type="file"]:hover {
+    border-color: rgba(37,99,235,0.4);
+    background-color: #f1f5f9;
+}
+
+input[type="file"]:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    outline: none;
+}
+
+/* Стили для ошибок */
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: #ef4444;
+}
+
+.invalid-feedback {
+    color: #ef4444;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+/* Стили для help text */
+.text-muted.small {
+    color: #64748b;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+/* Стили для форм входа/регистрации */
+.card {
+    border: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+/* Улучшение отображения форм */
+form.vstack {
+    gap: 1rem;
+}
+
+form .row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+
+
+
+
+
+
+
+

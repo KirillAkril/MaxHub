@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Профиль{% endblock %}
+{% block content %}
+<h2>Профиль</h2>
+<form method="post" enctype="multipart/form-data" class="vstack gap-3">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <div>
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        {{ form.username.errors }}
+    </div>
+    <div class="row g-3">
+        <div class="col-md-6">
+            {{ form.first_name.label_tag }} {{ form.first_name }}
+            {{ form.first_name.errors }}
+        </div>
+        <div class="col-md-6">
+            {{ form.last_name.label_tag }} {{ form.last_name }}
+            {{ form.last_name.errors }}
+        </div>
+    </div>
+    <div>
+        {{ form.title.label_tag }} {{ form.title }}
+        {{ form.title.errors }}
+    </div>
+    <div>
+        {{ form.bio.label_tag }} {{ form.bio }}
+        {{ form.bio.errors }}
+    </div>
+    <div class="row g-3">
+        <div class="col-md-6">
+            {{ form.email.label_tag }} {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+        <div class="col-md-6">
+            {{ form.max_username.label_tag }} {{ form.max_username }}
+            {{ form.max_username.errors }}
+        </div>
+    </div>
+
+    <div class="d-flex align-items-center gap-3">
+        {% if user.avatar %}
+            <img src="{{ user.avatar.url }}" class="rounded-circle" width="64" height="64" alt="">
+        {% else %}
+            <div class="avatar-placeholder rounded-circle d-flex align-items-center justify-content-center" style="width:64px;height:64px;">
+                {{ user.username|first|upper }}
+            </div>
+        {% endif %}
+        <div class="vstack gap-2">
+            <div>
+                {{ form.avatar.label_tag }} {{ form.avatar }}
+                {{ form.avatar.errors }}
+            </div>
+            {% if user.avatar %}
+                <button type="submit" name="remove_avatar" value="1" class="btn btn-sm btn-outline-danger">
+                    Удалить аватар
+                </button>
+            {% endif %}
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Сохранить</button>
+</form>
+{% endblock %}
+
+
