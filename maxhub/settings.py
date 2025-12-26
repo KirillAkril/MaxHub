@@ -24,9 +24,10 @@ if os.getenv("RENDER"):
     # Also allow all *.onrender.com subdomains for Render
     if ".onrender.com" not in str(ALLOWED_HOSTS):
         ALLOWED_HOSTS.append("*.onrender.com")
-    # Allow all hosts for health checks from Render (Render uses IP addresses for health checks)
-    # This is safe because health checks don't include sensitive headers
-    ALLOWED_HOSTS.append("*")
+    # Allow all hosts on Render (needed for health checks from IP addresses)
+    # This is safe because Render protects services at the infrastructure level
+    if "*" not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append("*")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
