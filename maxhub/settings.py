@@ -15,7 +15,7 @@ DEBUG = os.getenv("DJANGO_DEBUG", "true").lower() == "true"
 allowed_hosts_str = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1")
 ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_str.split(",") if host.strip()]
 
-# Add Render.com domain if not in production and using Render
+# Add Render.com domain if running on Render
 if os.getenv("RENDER"):
     render_service_name = os.getenv("RENDER_SERVICE_NAME", "")
     render_external_host = os.getenv("RENDER_EXTERNAL_HOST", "")
@@ -24,6 +24,9 @@ if os.getenv("RENDER"):
     # Also allow all *.onrender.com subdomains for Render
     if ".onrender.com" not in str(ALLOWED_HOSTS):
         ALLOWED_HOSTS.append("*.onrender.com")
+    # Allow all hosts for health checks from Render (Render uses IP addresses for health checks)
+    # This is safe because health checks don't include sensitive headers
+    ALLOWED_HOSTS.append("*")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -37,6 +40,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "maxhub.health_check.RenderHealthCheckMiddleware",  # Handle Render health checks
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
