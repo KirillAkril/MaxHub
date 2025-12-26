@@ -164,7 +164,11 @@
 #### Переменная 3: DJANGO_ALLOWED_HOSTS
 1. Нажмите **"Add Environment Variable"** еще раз
 2. **Key:** `DJANGO_ALLOWED_HOSTS`
-3. **Value:** `maxhub.onrender.com` (или `ваше-название.onrender.com` - название, которое вы указали в Name на шаге 3.3.1)
+3. **Value:** Введите URL вашего сайта на Render (будет показан после создания сервиса)
+   - Пример: `maxhub.onrender.com`
+   - **ВАЖНО:** После создания сервиса Render покажет вам URL (что-то вроде `https://maxhub-xxxx.onrender.com`)
+   - Скопируйте только доменную часть (без `https://`), например: `maxhub-xxxx.onrender.com`
+   - Если не знаете URL, можете использовать: `*.onrender.com` (разрешит все поддомены Render)
 
 #### Переменные для базы данных (4-8)
 
@@ -208,6 +212,9 @@
 7. **DB_HOST**
    - **Key:** `DB_HOST`
    - **Value:** Скопируйте часть HOST из URL (между `@` и `:5432`)
+   - ⚠️ **ВАЖНО:** Хост должен быть ПОЛНЫМ, например: `dpg-xxxxx-a.oregon-postgres.render.com`
+   - ❌ **НЕПРАВИЛЬНО:** `dpg-xxxxx-a` (без домена)
+   - ✅ **ПРАВИЛЬНО:** `dpg-xxxxx-a.oregon-postgres.render.com` (с полным доменом)
 
 8. **DB_PORT**
    - **Key:** `DB_PORT`
@@ -305,7 +312,24 @@
 
 ### Проблемы?
 
-1. **Ошибка "Error loading psycopg2 or psycopg module":**
+1. **Ошибка "Bad Request (400)":**
+   - **Причина:** Проблема с настройкой ALLOWED_HOSTS
+   - **Решение:**
+     1. В Render откройте ваш веб-сервис
+     2. Перейдите в "Environment" (Переменные окружения)
+     3. Найдите переменную `DJANGO_ALLOWED_HOSTS`
+     4. В поле "Value" укажите ваш URL на Render:
+        - Найдите URL вашего сайта вверху страницы сервиса (например: `https://maxhub-xxxx.onrender.com`)
+        - Скопируйте только доменную часть (без `https://`), например: `maxhub-xxxx.onrender.com`
+        - Вставьте это значение в `DJANGO_ALLOWED_HOSTS`
+     5. Нажмите "Save Changes"
+     6. Сервис автоматически перезапустится
+   
+   - **Альтернативное решение:** Если не хотите указывать конкретный домен:
+     - В поле `DJANGO_ALLOWED_HOSTS` введите: `*.onrender.com`
+     - Это разрешит все поддомены Render (работает для любого сервиса на Render)
+
+2. **Ошибка "Error loading psycopg2 or psycopg module":**
    - **Решение 1:** Обновите файл `requirements.txt` в вашем репозитории:
      1. Откройте `requirements.txt` в редакторе
      2. Найдите строку `psycopg2-binary==2.9.9`
