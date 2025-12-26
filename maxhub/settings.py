@@ -11,7 +11,19 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-secret-key-change-me")
 
 DEBUG = os.getenv("DJANGO_DEBUG", "true").lower() == "true"
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+# ALLOWED_HOSTS configuration
+allowed_hosts_str = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1")
+ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_str.split(",") if host.strip()]
+
+# Add Render.com domain if not in production and using Render
+if os.getenv("RENDER"):
+    render_service_name = os.getenv("RENDER_SERVICE_NAME", "")
+    render_external_host = os.getenv("RENDER_EXTERNAL_HOST", "")
+    if render_external_host:
+        ALLOWED_HOSTS.append(render_external_host)
+    # Also allow all *.onrender.com subdomains for Render
+    if ".onrender.com" not in str(ALLOWED_HOSTS):
+        ALLOWED_HOSTS.append("*.onrender.com")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
