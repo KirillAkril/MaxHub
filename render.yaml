@@ -1,0 +1,47 @@
+services:
+  - type: web
+    name: maxhub
+    env: python
+    plan: free
+    region: oregon
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate
+    startCommand: gunicorn maxhub.wsgi:application
+    healthCheckPath: /
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        sync: false
+      - key: DJANGO_DEBUG
+        value: false
+      - key: DJANGO_ALLOWED_HOSTS
+        fromService:
+          type: web
+          name: maxhub
+          property: host
+      - key: DB_NAME
+        fromDatabase:
+          name: maxhub-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: maxhub-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: maxhub-db
+          property: password
+      - key: DB_HOST
+        fromDatabase:
+          name: maxhub-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: maxhub-db
+          property: port
+
+databases:
+  - name: maxhub-db
+    plan: free
+    region: oregon
+    databaseName: maxhub
+    user: maxhub_user
+

@@ -41,8 +41,22 @@ python manage.py createsuperuser
 - `DJANGO_DEBUG` — `true/false`
 - `DJANGO_ALLOWED_HOSTS` — через запятую
 
+## Деплой на Render
+
+Проект готов к деплою на Render. Подробная инструкция находится в файле [DEPLOY_GUIDE_RU.md](DEPLOY_GUIDE_RU.md).
+
+**Быстрый старт:**
+1. Загрузите проект в GitHub/GitLab
+2. Создайте аккаунт на [render.com](https://render.com)
+3. В Render выберите "New +" → "Blueprint"
+4. Подключите ваш репозиторий
+5. Render автоматически обнаружит `render.yaml` и настроит все сервисы
+6. Установите `DJANGO_SECRET_KEY` в Environment переменных
+
+**Важно:** Медиа-файлы на Render Free плане удаляются при перезапуске. Для продакшена рекомендуется использовать S3 или другое внешнее хранилище.
+
 ## Следующие шаги
 - Добавить генерацию vCard/PDF.
 - Подключить ограничения на загрузку файлов и reCAPTCHA/ throttle для формы.
-- Вынести статику на CDN и переключить БД на PostgreSQL для продакшена.
+- Настроить внешнее хранилище для медиа-файлов (S3, Cloudinary).
 
